@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>GPU Stress Test</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="control-pane" aria-labelledby="app-title">
+        <div class="masthead">
+          <p class="eyebrow">GPU Load Test</p>
+          <h1 id="app-title">GPU Stress Test</h1>
+          <p class="subtitle">
+            Run a sustained local GPU workload with WebGPU compute shaders, or use the WebGL2 fallback when WebGPU is unavailable.
+          </p>
+        </div>
+
+        <div class="status-strip" role="status" aria-live="polite">
+          <span class="status-dot" id="statusDot" aria-hidden="true"></span>
+          <span id="statusText">Preparing GPU context</span>
+        </div>
+
+        <div class="action-row">
+          <button class="button primary" id="startButton" type="button" disabled>
+            Start
+          </button>
+          <button class="button danger" id="stopButton" type="button" disabled>
+            Stop
+          </button>
+        </div>
+
+        <div class="warning-box">
+          This tool intentionally creates sustained GPU load. Monitor temperature, power, and system stability, and stop the test if the machine becomes unstable.
+        </div>
+
+        <details class="settings" open>
+          <summary>Test Settings</summary>
+
+          <label class="field">
+            <span>Target load</span>
+            <input id="targetDuty" type="range" min="50" max="99" step="1" value="97" />
+            <output id="targetDutyValue" for="targetDuty">97%</output>
+          </label>
+
+          <label class="field">
+            <span>Duration</span>
+            <input id="durationSeconds" type="number" min="5" max="1800" step="5" value="180" />
+            <span class="unit">sec</span>
+          </label>
+
+          <label class="field">
+            <span>Engine</span>
+            <select id="engineMode">
+              <option value="auto" selected>Auto, prefer WebGPU</option>
+              <option value="webgpu">WebGPU only</option>
+              <option value="webgl2">WebGL2 fallback</option>
+            </select>
+          </label>
+
+          <label class="field">
+            <span>Buffer size</span>
+            <select id="bufferSize">
+              <option value="1024">1024 x 1024</option>
+              <option value="1536" selected>1536 x 1536</option>
+              <option value="2048">2048 x 2048</option>
+              <option value="3072">3072 x 3072</option>
+            </select>
+          </label>
+
+          <label class="field">
+            <span>Shader intensity</span>
+            <select id="intensity">
+              <option value="balanced">Balanced</option>
+              <option value="heavy" selected>Heavy</option>
+              <option value="max">Max</option>
+            </select>
+          </label>
+        </details>
+      </section>
+
+      <section class="telemetry-pane" aria-label="GPU telemetry">
+        <div class="visualizer-wrap">
+          <canvas id="meterCanvas" width="960" height="520" aria-label="GPU load visualization"></canvas>
+        </div>
+
+        <div class="progress-track" aria-label="Test progress">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+        <div class="metric-grid">
+          <article class="metric">
+            <span>Remaining</span>
+            <strong id="remainingTime">03:00</strong>
+          </article>
+          <article class="metric">
+            <span>Average duty</span>
+            <strong id="averageDuty">0%</strong>
+          </article>
+          <article class="metric">
+            <span>Work chunk</span>
+            <strong id="workChunk">0 ms</strong>
+          </article>
+          <article class="metric">
+            <span>Pass count</span>
+            <strong id="passCount">0</strong>
+          </article>
+          <article class="metric">
+            <span>Engine</span>
+            <strong id="engineName">Auto</strong>
+          </article>
+        </div>
+
+        <div class="device-box">
+          <span>Renderer</span>
+          <strong id="rendererName">Probing</strong>
+        </div>
+      </section>
+    </main>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

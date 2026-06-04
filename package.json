@@ -1,0 +1,19 @@
+{
+  "name": "gpu-stress-test",
+  "version": "0.1.0",
+  "description": "Local WebGPU and WebGL2 GPU stress test tool.",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "start": "node server.mjs",
+    "check": "node --check app.js && node --check server.mjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/naivefish0612-ai/gpu-stress-test.git"
+  },
+  "bugs": {
+    "url": "https://github.com/naivefish0612-ai/gpu-stress-test/issues"
+  },
+  "homepage": "https://github.com/naivefish0612-ai/gpu-stress-test#readme"
+}
